@@ -546,6 +546,7 @@ static const SupportedDevice supportedDevices[] = {
     { VENDOR_XIAOYAN, "TERNCY-SD01", emberMacPrefix }, // Terncy Smart Dial SD01
     { VENDOR_XFINITY, "URC4450BC0-X-R", emberMacPrefix }, // Xfinity Keypad XHK1-UE / URC4450BC0-X-R
     { VENDOR_CENTRALITE, "3405-L", emberMacPrefix }, // IRIS 3405-L Keypad
+    { VENDOR_CENTRALITE, "3400", emberMacPrefix }, // Centralite 3400 Keypad
 
     { 0, nullptr, 0 }
 };
@@ -4578,6 +4579,7 @@ void DeRestPluginPrivate::checkSensorButtonEvent(Sensor *sensor, const deCONZ::A
              sensor->modelId().startsWith(QLatin1String("RC_V14")) || // Heiman remote
              sensor->modelId() == QLatin1String("URC4450BC0-X-R") ||  // Xfinity Keypad XHK1-UE
              sensor->modelId() == QLatin1String("3405-L") ||          // IRIS 3405-L Keypad
+	     sensor->modelId() == QLatin1String("3400") ||          // Centralite 3400 Keypad
              sensor->modelId().startsWith(QLatin1String("RC-EM")))   // Heiman remote
     {
         checkClientCluster = true;
@@ -5852,6 +5854,7 @@ void DeRestPluginPrivate::addSensorNode(const deCONZ::Node *node, const deCONZ::
                     }
                     else if (modelId == QLatin1String("URC4450BC0-X-R") ||
                              modelId == QLatin1String("3405-L") ||
+			     modelId == QLatin1String("3400") ||
                              modelId == QLatin1String("ZB-KeypadGeneric-D0002"))
                     {
                         fpAncillaryControlSensor.inClusters.push_back(ci->id());
@@ -6473,6 +6476,7 @@ void DeRestPluginPrivate::addSensorNode(const deCONZ::Node *node, const deCONZ::
                     }
                     if (modelId == QLatin1String("URC4450BC0-X-R") ||
                         modelId == QLatin1String("3405-L") ||
+			modelId == QLatin1String("3400") ||
                         modelId == QLatin1String("ZB-KeypadGeneric-D0002"))
                     {
                         fpAncillaryControlSensor.outClusters.push_back(ci->id());
@@ -8069,6 +8073,7 @@ void DeRestPluginPrivate::addSensorNode(const deCONZ::Node *node, const SensorFi
     if ((clusterId == IAS_ZONE_CLUSTER_ID || (clusterId == IAS_ACE_CLUSTER_ID && sensorNode.fingerPrint().hasInCluster(IAS_ZONE_CLUSTER_ID))) &&
         (modelId != QLatin1String("URC4450BC0-X-R") ||
          modelId != QLatin1String("3405-L") ||
+	 modelId != QLatin1String("3400") ||
         (sensorNode.type().endsWith(QLatin1String("AncillaryControl")) || !sensorNode.fingerPrint().hasOutCluster(IAS_ACE_CLUSTER_ID))))
     {
         if (modelId == QLatin1String("button") ||
